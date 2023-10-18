@@ -1,0 +1,59 @@
+Service:
+  RegionId: cn-hangzhou
+  DeployType: ros
+  DeployMetadata:
+    ServiceInstanceNameRule:
+      Prefix: dm
+    SupplierDeployMetadata:
+      FileArtifactRelation:
+        '{{ computenest::file::springboot }}':
+          ArtifactId: ${Artifact.Artifact_1.ArtifactId}
+          ArtifactVersion: ${Artifact.Artifact_1.ArtifactVersion}
+    TemplateConfigs:
+      - Name: ECS单机版
+        Url: 'templates/template.yaml'
+        AllowedRegions:
+          - cn-beijing
+          - cn-zhangjiakou
+          - cn-huhehaote
+          - cn-wulanchabu
+          - cn-hangzhou
+          - cn-shanghai
+          - cn-shenzhen
+          - cn-heyuan
+          - cn-guangzhou
+          - cn-chengdu
+          - cn-hongkong
+          - ap-northeast-1
+          - ap-southeast-1
+          - ap-southeast-2
+          - ap-southeast-3
+          - ap-southeast-5
+          - ap-southeast-6
+          - us-east-1
+          - us-west-1
+          - eu-west-1
+          - eu-central-1
+          - ap-south-1
+          - me-east-1
+          - cn-nanjing
+          - cn-fuzhou
+          - ap-northeast-2
+          - ap-southeast-7
+          - cn-qingdao
+  ServiceType: private
+  ServiceInfo:
+    Locale: zh-CN
+    ShortDescription: spring boot demo
+    Image: 'icons/service_logo.png'
+    Name: SpringBoot单机版(软件包)
+  ShareType: Public
+  ApprovalType: Manual
+Artifact:
+  Artifact_1:
+    ArtifactType: File
+    ArtifactName: SpringBootPackage
+    Description: 这是一个使用SpringBoot的测试包
+    ArtifactProperty:
+      RegionId: cn-hangzhou
+      Url: 'artifacts/package.tgz'

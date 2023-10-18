@@ -1,0 +1,109 @@
+ROSTemplateFormatVersion: '2015-09-01'
+Description:
+  en: Spring boot Demo
+  zh-cn:  Spring boot Demo
+Parameters:
+  EcsInstanceType:
+    Type: String
+    Label:
+      en: Instance Type
+      zh-cn: 实例类型
+    AssociationProperty: ALIYUN::ECS::Instance::InstanceType
+    AssociationPropertyMetadata:
+      InstanceChargeType: ${PayType}
+    AllowedValues:
+      - ecs.c6.large
+      - ecs.c6.2xlarge
+  ZoneId:
+    Type: String
+    Label:
+      en: Zone ID
+      zh-cn: 可用区ID
+    AssociationProperty: ALIYUN::ECS::Instance::ZoneId
+Resources:
+  Vpc:
+    Type: ALIYUN::ECS::VPC
+    Properties:
+      CidrBlock: 192.168.0.0/16
+  SecurityGroup:
+    Type: ALIYUN::ECS::SecurityGroup
+    Properties:
+      SecurityGroupName:
+        Ref: ALIYUN::StackName
+      VpcId:
+        Ref: Vpc
+      # 安全组入端口
+      SecurityGroupIngress:
+        - PortRange: 8080/8080
+          Priority: 1
+          SourceCidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          NicType: internet
+  VSwitch:
+    Type: ALIYUN::ECS::VSwitch
+    Properties:
+      ZoneId:
+        Ref: ZoneId
+      VpcId:
+        Ref: Vpc
+      CidrBlock: 192.168.0.0/24
+  InstanceGroup:
+    Type: ALIYUN::ECS::InstanceGroup
+    Properties:
+      VpcId:
+        Ref: Vpc
+      VSwitchId:
+        Ref: VSwitch
+      SecurityGroupId:
+        Ref: SecurityGroup
+      ZoneId:
+        Ref: ZoneId
+      ImageId: centos_7_8
+      InstanceType:
+        Ref: EcsInstanceType
+      SystemDiskCategory: cloud_essd
+      IoOptimized: optimized
+      MaxAmount: 1
+  InstallPackage:
+    Type: ALIYUN::ECS::RunCommand
+    Properties:
+      InstanceIds:
+        Fn::GetAtt:
+        - InstanceGroup
+        - InstanceIds
+      Type: RunShellScript
+      Sync: true
+      Timeout: 3600
+      CommandContent:
+        Fn::Sub:
+          - |
+            #!/bin/bash
+            yum install -y java
+            mkdir -p /home/admin/application
+            cd /home/admin/application
+            wget '{{ computenest::file::springboot }}' -O package.tgz
+            tar xvf package.tgz
+            /bin/bash deploy.sh start
+          - AccountId:
+              Ref: ALIYUN::TenantId
+Outputs:
+  VisitUrl:
+    Description:
+      en: VisitUrl.
+      zh-cn: 访问页面。
+    Value:
+      Fn::Sub:
+      - http://${Address}:8080
+      - Address:
+          Fn::Select:
+          - 0
+          - Fn::GetAtt:
+            - InstanceGroup
+            - PublicIps
+Metadata:
+  ALIYUN::ROS::Interface:
+    ParameterGroups:
+    - Parameters:
+        - EcsInstanceType
+        - ZoneId
+      Label: 资源配置
