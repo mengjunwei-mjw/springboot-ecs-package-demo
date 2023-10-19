@@ -234,7 +234,7 @@ Outputs:
 ## 部署架构
 
 本部署架构为单机ecs部署，通过公网ip 8080端口访问
-<img src="1.png" width="1500" height="700" align="bottom"/>
+<img src="architecture.png" width="1500" height="700" align="bottom"/>
     
 
 ## RAM账号所需权限
@@ -266,7 +266,8 @@ Outputs:
 
 ### 部署步骤
 
-
+0. 部署链接
+ ![image.png](1.png)
 1. 单击部署链接，进入服务实例部署界面，根据界面提示，填写参数完成部署。
  ![image.png](2.png)
 2. 参数填写完成后可以看到对应询价明细，确认参数后点击**下一步：确认订单**。
@@ -274,9 +275,11 @@ Outputs:
 3. 确认订单完成后同意服务协议并点击**立即创建**
    进入部署阶段。
     ![image.png](4.png)
-
-4. 等待部署完成后就可以开始使用服务，进入服务实例详情点击visitUrl。
     ![image.png](5.png)
+4. 等待部署完成后就可以开始使用服务，进入服务实例详情点击visitUrl。
+    ![image.png](6.png)
+5. 部署结果
+    ![image.png](7.png)
 
 
 ## 其他说明
