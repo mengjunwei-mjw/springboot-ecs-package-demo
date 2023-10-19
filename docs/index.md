@@ -288,16 +288,3 @@ Outputs:
 
 实例代码源地址: https://atomgit.com/flow-example/spring-boot
 软件包package.tgz构建流程参考 https://help.aliyun.com/document_detail/153848.html
-
-
-## 联系我们
-
-欢迎访问Demo官网（[https://www.aliyun.com](https://www.aliyun.com)）了解更多信息。
-
-联系邮箱：[https://www.aliyun.com](mailto:https://www.aliyun.com)
-
-社区版开源地址：[https://github.com/](https://github.com/)
-
-扫码关注微信公众号，技术博客、活动通知不容错过：
-
-`(添加二维码图片)`
