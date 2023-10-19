@@ -21,7 +21,7 @@ tar xvf package.tgz
 
 templates/template.yaml主要由三部分组成
 
-Parameters定义需要用户填写的参数
+1.Parameters定义需要用户填写的参数
 包括付费类型，实例规格和实例密码可用区参数
 ```
   PayType:
@@ -112,7 +112,7 @@ Parameters定义需要用户填写的参数
     AssociationProperty: ALIYUN::ECS::Instance::ZoneId
 ```
 
-Resources定义需要开的资源
+2.Resources定义需要开的资源
 包括新开的vpc, vswitch和ecs实例, 以及执行命令的定义
 ```
   Vpc:
@@ -188,7 +188,7 @@ Resources定义需要开的资源
           - AccountId:
               Ref: ALIYUN::TenantId
 ```
-Outputs定义需要最终在计算巢概览页中对用户展示的输出
+3.Outputs定义需要最终在计算巢概览页中对用户展示的输出
 
 ```
 Outputs:
