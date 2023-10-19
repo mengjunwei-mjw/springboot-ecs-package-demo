@@ -277,14 +277,16 @@ Outputs:
 3. 确认订单完成后同意服务协议并点击**立即创建**
    进入部署阶段。
     ![image.png](4.png)
+   
     ![image.png](5.png)
-4. 等待部署完成后就可以开始使用服务，进入服务实例详情点击visitUrl。
+5. 等待部署完成后就可以开始使用服务，进入服务实例详情点击visitUrl。
     ![image.png](6.png)
-5. 部署结果
+6. 部署结果
     ![image.png](7.png)
 
 
 ## 其他说明
 
 实例代码源地址: https://atomgit.com/flow-example/spring-boot
+
 软件包package.tgz构建流程参考 https://help.aliyun.com/document_detail/153848.html
