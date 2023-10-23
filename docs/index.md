@@ -31,7 +31,10 @@
 
 本部署架构为单机ecs部署，通过公网ip 8080端口访问
 <img src="architecture.png" width="1500" height="700" align="bottom"/>
-    
+
+服务构建流程为
+1. 上传文件并构建计算巢文件部署物
+2. 创建计算巢服务并关联文件部署物
 
 ## RAM账号所需权限
 
