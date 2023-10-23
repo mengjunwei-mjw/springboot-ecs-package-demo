@@ -27,6 +27,7 @@
 | AliyunVPCFullAccess             | 管理专有网络（VPC）的权限         |
 | AliyunROSFullAccess             | 管理资源编排服务（ROS）的权限       |
 | AliyunComputeNestUserFullAccess | 管理计算巢服务（ComputeNest）的用户侧权限 |
+| AliyunComputeNestSupplierFullAccess | 管理计算巢服务（ComputeNest）的服务商侧权限 |
 
 
 ## 服务实例计费说明
