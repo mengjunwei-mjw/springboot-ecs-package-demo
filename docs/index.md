@@ -4,9 +4,11 @@
 
 本文介绍基于springboot+软件包的单机ecs服务快速上手流程，本示例对应的[git地址](https://github.com/aliyun-computenest/springboot-ecs-package-demo)
 
-服务构建流程为
+本示例会自动的构建计算巢服务，具体的服务构建流程为
 1. 上传文件并构建计算巢文件部署物
 2. 创建计算巢服务并关联文件部署物
+
+创建过程大约持续1分钟，当服务变成待提交后构建成功
 
 ## 服务架构
 
