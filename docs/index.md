@@ -4,11 +4,11 @@
 
 本文介绍基于springboot+软件包的单机ecs服务快速上手流程
 
-本示例对应的git地址为: https://github.com/aliyun-computenest/springboot-ecs-package-demo
+本示例对应的[git地址](https://github.com/aliyun-computenest/springboot-ecs-package-demo)
 
 ## 创建服务
 
-本文通过将 https://atomgit.com/flow-example/spring-boot构建将deploy.sh和application.jar打包成package.tgz后
+本文通过将[代码](https://atomgit.com/flow-example/spring-boot)构建后，将deploy.sh和application.jar打包成package.tgz
 
 通过计算巢部署物上传文件部署无并分发生成SpringBootPackage
 
