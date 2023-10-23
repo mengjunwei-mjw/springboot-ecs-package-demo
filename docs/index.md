@@ -8,6 +8,11 @@
 1. 上传文件并构建计算巢文件部署物
 2. 创建计算巢服务并关联文件部署物
 
+## 服务架构
+
+本部署架构为单机ecs部署，通过公网ip 8080端口访问
+<img src="architecture.png" width="1500" height="700" align="bottom"/>
+
 ## 服务构建计费说明
 
 测试本服务构建无需任何费用，创建服务实例涉及的费用参考服务实例计费说明
@@ -22,12 +27,6 @@
 | AliyunVPCFullAccess             | 管理专有网络（VPC）的权限         |
 | AliyunROSFullAccess             | 管理资源编排服务（ROS）的权限       |
 | AliyunComputeNestUserFullAccess | 管理计算巢服务（ComputeNest）的用户侧权限 |
-
-
-## 服务实例部署架构
-
-本部署架构为单机ecs部署，通过公网ip 8080端口访问
-<img src="architecture.png" width="1500" height="700" align="bottom"/>
 
 
 ## 服务实例计费说明
