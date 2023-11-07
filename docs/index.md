@@ -90,7 +90,7 @@
 
 ## 服务详细说明
 
-本文通过将[代码](https://atomgit.com/flow-example/spring-boot)构建后，将deploy.sh和application.jar打包成package.tgz，通过计算巢部署物上传未文件部署物，并分发生成SpringBootPackage，然后在模版中ALIYUN::ECS::RunCommand执行命令
+本文通过将[代码](https://atomgit.com/flow-example/spring-boot)构建后，将deploy.sh和application.jar打包成package.tgz，通过计算巢部署物上传为文件部署物，并分发生成SpringBootPackage，然后在模版中ALIYUN::ECS::RunCommand执行命令
 ```
 yum install -y java
 mkdir -p /home/admin/application
