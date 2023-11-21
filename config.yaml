@@ -17,6 +17,17 @@ Service:
           - cn-hangzhou
           - cn-shanghai
   ServiceType: private
+  OperationMetadata:
+    ModifyParametersConfig:
+      - TemplateName: ECS单机版
+        Operation:
+          - Name: 变配ECS实例规格
+            Description: 变配ECS实例规格
+            Type: Custom
+            SupportPredefinedParameters: false
+            EnableLogging: false
+            Parameters:
+              - EcsInstanceType
   ServiceInfo:
     Locale: zh-CN
     ShortDescription: spring boot demo
