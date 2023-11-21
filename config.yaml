@@ -18,9 +18,6 @@ Service:
           - cn-shanghai
   ServiceType: private
   OperationMetadata:
-    PrometheusConfigMap:
-      ECS单机版:
-        EnablePrometheus: false
     ModifyParametersConfig:
       - TemplateName: ECS单机版
         Operation:
