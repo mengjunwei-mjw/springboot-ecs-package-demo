@@ -1,0 +1,4 @@
+site_name: Aliyun 计算巢 x springboot-ecs-package-demo
+theme: 
+  name: aliyuncomputenest
+docs_dir: .computenest/docs
