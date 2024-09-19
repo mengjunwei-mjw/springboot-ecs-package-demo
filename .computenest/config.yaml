@@ -12,6 +12,7 @@ Service:
     TemplateConfigs:
       - Name: ECS单机版
         Url: 'ros_templates/template.yaml'
+        ArchitectureDiagramUrl: 'docs/architecture.png'
         AllowedRegions:
           - cn-beijing
           - cn-hangzhou
