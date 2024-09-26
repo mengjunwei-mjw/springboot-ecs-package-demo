@@ -1,7 +1,7 @@
 ROSTemplateFormatVersion: '2015-09-01'
 Description:
-  en: Spring boot Demo
-  zh-cn:  Spring boot Demo
+  en: Source Code Service Ros Template
+  zh-cn: 源代码服务模板
 Parameters:
   PayType:
     Type: String
@@ -64,9 +64,10 @@ Parameters:
     AssociationProperty: ALIYUN::ECS::Instance::InstanceType
     AssociationPropertyMetadata:
       InstanceChargeType: ${PayType}
-    AllowedValues:
-      - ecs.c6.large
-      - ecs.c6.2xlarge
+      Constraints:
+        InstanceTypeFamily:
+          - ecs.u1
+          - ecs.e
   InstancePassword:
     NoEcho: true
     Type: String
@@ -89,33 +90,41 @@ Parameters:
       en: Zone ID
       zh-cn: 可用区ID
     AssociationProperty: ALIYUN::ECS::Instance::ZoneId
+  VpcId:
+    Type: String
+    Label:
+      en: VPC ID
+      zh-cn: 专有网络VPC实例ID
+    AssociationProperty: 'ALIYUN::ECS::VPC::VPCId'
+  VSwitchId:
+    Type: String
+    Label:
+      en: VSwitch ID
+      zh-cn: 交换机实例ID
+    Default: ''
+    AssociationProperty: 'ALIYUN::ECS::VSwitch::VSwitchId'
+    AssociationPropertyMetadata:
+      VpcId: VpcId
+      ZoneId: ZoneId
+  AdminPassword:
+    Type: String
+    AssociationProperty: ALIYUN::ECS::Instance::Password
+    Label: 管理员密码
+    NoEcho: True
 Resources:
-  Vpc:
-    Type: ALIYUN::ECS::VPC
-    Properties:
-      CidrBlock: 192.168.0.0/16
   SecurityGroup:
     Type: ALIYUN::ECS::SecurityGroup
     Properties:
       SecurityGroupName:
         Ref: ALIYUN::StackName
       VpcId:
-        Ref: Vpc
-      # 安全组入端口
+        Ref: VpcId
       SecurityGroupIngress:
-        - PortRange: 8080/8080
+        - PortRange: 80/80
           Priority: 1
           SourceCidrIp: 0.0.0.0/0
           IpProtocol: tcp
           NicType: internet
-  VSwitch:
-    Type: ALIYUN::ECS::VSwitch
-    Properties:
-      ZoneId:
-        Ref: ZoneId
-      VpcId:
-        Ref: Vpc
-      CidrBlock: 192.168.0.0/24
   InstanceGroup:
     Type: ALIYUN::ECS::InstanceGroup
     Properties:
@@ -127,24 +136,24 @@ Resources:
       Period:
         Ref: PayPeriod
       VpcId:
-        Ref: Vpc
+        Ref: VpcId
       VSwitchId:
-        Ref: VSwitch
-      SecurityGroupId:
-        Ref: SecurityGroup
+        Ref: VSwitchId
       ZoneId:
         Ref: ZoneId
-      ImageId: centos_7_8_x64_20G_alibase_20211130.vhd
+      SecurityGroupId:
+        Ref: SecurityGroup
+      ImageId: centos_7_9_x64_20G_alibase_20230613.vhd
       Password:
         Ref: InstancePassword
       InstanceType:
         Ref: EcsInstanceType
       SystemDiskCategory: cloud_essd
       SystemDiskSize: 200
-      InternetMaxBandwidthOut: 1
+      InternetMaxBandwidthOut: 5
       IoOptimized: optimized
       MaxAmount: 1
-  InstallPackage:
+  RunInstallCommand:
     Type: ALIYUN::ECS::RunCommand
     Properties:
       InstanceIds:
@@ -158,28 +167,29 @@ Resources:
         Fn::Sub:
           - |
             #!/bin/bash
-            yum install -y java
-            mkdir -p /home/admin/application
-            cd /home/admin/application
-            wget '{{ computenest::file::springboot }}' -O package.tgz
-            tar xvf package.tgz
-            /bin/bash deploy.sh start
-          - AccountId:
-              Ref: ALIYUN::TenantId
+            # 源代码通过computenest-cli被打包为tar.gz包，并发布为部署物
+            wget '{{ computenest::file::mengjunwei-mjw_springboot-ecs-package-demo }}' -O mengjunwei-mjw_springboot-ecs-package-demo.tar.gz > /var/log/download.log
+            tar -zxvf mengjunwei-mjw_springboot-ecs-package-demo.tar.gz && cd "$(tar -tzf mengjunwei-mjw_springboot-ecs-package-demo.tar.gz | head -1 | awk -F'/' '{print $1}')"
+            echo "start run command"
+            echo "${AdminPassword}"
+
+            ARGUS_VERSION=3.5.7 /bin/bash -c "$(curl -sS https://cms-agent-${RegionId}.oss-${RegionId}-internal.aliyuncs.com/Argus/agent_install_ecs-1.7.sh)" >> /root/install_cms_agent.log 2>&1
+          - RegionId:
+              Ref: ALIYUN::Region
 Outputs:
-  VisitUrl:
+  ServerAddress:
     Description:
-      en: VisitUrl.
+      en: ServerAddress.
       zh-cn: 访问页面。
     Value:
       Fn::Sub:
-      - http://${Address}:8080
-      - Address:
-          Fn::Select:
-          - 0
-          - Fn::GetAtt:
-            - InstanceGroup
-            - PublicIps
+        - 'http://${ServerAddress}:80'
+        - ServerAddress:
+            Fn::Select:
+            - 0
+            - Fn::GetAtt:
+              - InstanceGroup
+              - PublicIps
 Metadata:
   ALIYUN::ROS::Interface:
     ParameterGroups:
@@ -196,6 +206,13 @@ Metadata:
           default: 资源配置
       - Parameters:
           - ZoneId
+          - VpcId
+          - VSwitchId
         Label:
           default: 可用区配置
-
+      - Parameters:
+          - AdminPassword
+        Label:
+          en: Software Configuration
+          zh-cn: 软件配置
+      
